@@ -30,6 +30,7 @@ public class OpenShiftIT {
 
   @Before
   public void setup() {
+    System.out.println("@before");
     RestAssured.baseURI = route.toString() + "api/fruits";
 
     String s = get().asString();
@@ -43,6 +44,7 @@ public class OpenShiftIT {
 
   @Test
   public void testRetrieveWhenNoFruits() {
+    System.out.println("testRetrieve");
     get()
       .then()
       .assertThat().statusCode(200).body(is("[ ]"));

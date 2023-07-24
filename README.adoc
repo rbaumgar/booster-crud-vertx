@@ -19,7 +19,9 @@ $ oc new-project MY_PROJECT_NAME
 # Ensure that you use the following values for the user name, password and database name when creating your database application.
 # The pre-configured values are used in the `credentials-secret.yml` and `deployment.yml` files in the `src/main/fabric8` directory of your booster application project.
 
-$ oc new-app -e POSTGRESQL_USER=luke -ePOSTGRESQL_PASSWORD=secret -ePOSTGRESQL_DATABASE=my_data openshift/postgresql-92-centos7 --name=my-database
+$ oc new-app -e POSTGRESQL_USER=luke -ePOSTGRESQL_PASSWORD=secret -ePOSTGRESQL_DATABASE=my_data openshift/postgresql:12-el8 --name=my-database
+
+$ -- oc process openshift//postgresql-persistent POSTGRESQL_USER=luke POSTGRESQL_PASSWORD=secret POSTGRESQL_DATABASE=my_data DATABASE_SERVICE_NAME=my-database |oc apply -f -
 
 # Wait for `my-database` application to be running.
 
@@ -106,3 +108,10 @@ NOTE: If you receive an HTTP Error code `503` as a response after executing thes
 You can learn more about this booster and rest of the Eclipse Vert.x runtime in the link:http://appdev.openshift.io/docs/vertx-runtime.html[Eclipse Vert.x Runtime Guide].
 
 NOTE: Run the set of integration tests included with this booster using `mvn clean verify -Popenshift,openshift-it`.
+
+
+$ mvn fabric8:undeploy -Popenshift
+$ oc delete bc booster-crud-vertx-s2i
+$ oc delete is booster-crud-vertx
+
+$ oc delete deployment,service my-database
