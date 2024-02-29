@@ -25,7 +25,7 @@ $ -- oc process openshift//postgresql-persistent POSTGRESQL_USER=luke POSTGRESQL
 
 # Wait for `my-database` application to be running.
 
-$ mvn clean fabric8:deploy -Popenshift
+$ mvn clean package oc:deploy -Popenshift
 ----
 
 
@@ -110,8 +110,6 @@ You can learn more about this booster and rest of the Eclipse Vert.x runtime in 
 NOTE: Run the set of integration tests included with this booster using `mvn clean verify -Popenshift,openshift-it`.
 
 
-$ mvn fabric8:undeploy -Popenshift
-$ oc delete bc booster-crud-vertx-s2i
-$ oc delete is booster-crud-vertx
+$ mvn oc:undeploy -Popenshift
 
 $ oc delete deployment,service my-database
